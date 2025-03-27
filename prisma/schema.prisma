@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Provider {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Basic Information
+  firstName     String
+  lastName      String
+  email         String   @unique
+  phone         String?
+  title         String?  // e.g., "MD", "DO", "NP", "PA"
+  specialty     String?
+  
+  // Professional Details
+  licenseNumber String?  @unique
+  state         String?  // State of licensure
+  npi           String?  @unique // National Provider Identifier
+  
+  // Practice Information
+  practiceName  String?
+  practiceAddress String?
+  practicePhone  String?
+  practiceEmail  String?
+  
+  // Availability
+  availability  Boolean  @default(false) // Whether the provider is accepting patients
+  
+  // Credentials & Certifications
+  education     Education[]
+  certifications Certification[]
+  
+  // Insurance & Payment
+  acceptedPayers ProviderPayer[]
+  selfPayRate    Float?  // Rate for self-pay patients
+  
+  // Additional Information
+  bio           String?  @db.Text
+  languages     String[] // Array of spoken languages
+  specialties   String[] // Array of specialties
+  photoUrl      String?
+  
+  // Status
+  isActive      Boolean  @default(true)
+  isVerified    Boolean  @default(false)
+
+  // Booking
+  personalBookingUrl String? // Direct booking URL from PracticeQ
+}
+
+enum PayerType {
+  INSURANCE
+  CASH
+  MEDICAID
+  MEDICARE
+}
+
+model Payer {
+  id                String   @id @default(cuid())
+  name              String   @unique // Internal name (slug)
+  displayName       String   // Human-readable name
+  type              PayerType
+  networkName       String?
+  
+  // Contact & Claims Information
+  contactInfo       Json?    // Structured contact information
+  claimsAddress     String?
+  electronicPayerId String?  // Electronic Payer ID for claims
+  
+  // Terms & Requirements
+  effectiveDate     DateTime?
+  contractTerms     String?  @db.Text
+  paymentMethods    String[] // Array of accepted payment methods
+  claimsRequirements String? @db.Text
+  
+  // Coverage
+  acceptedStates    String[] // Array of state codes where the payer is accepted
+  
+  // Status
+  isActive         Boolean  @default(true) // Active on Moonlit
+  providers        ProviderPayer[]
+  
+  // Metadata
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model ProviderPayer {
+  provider    Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  providerId  String
+  payer       Payer    @relation(fields: [payerId], references: [id], onDelete: Cascade)
+  payerId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@id([providerId, payerId])
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  providerId  String
+  provider    Provider @relation(fields: [providerId], references: [id])
+  institution String
+  degree      String
+  field       String
+  startDate   DateTime
+  endDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Certification {
+  id          String   @id @default(cuid())
+  providerId  String
+  provider    Provider @relation(fields: [providerId], references: [id])
+  name        String
+  issuer      String
+  issueDate   DateTime
+  expiryDate  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+} 

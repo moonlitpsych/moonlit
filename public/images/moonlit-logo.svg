@@ -1,0 +1,10 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Top left circle -->
+  <circle cx="12" cy="12" r="12" fill="#F6B398"/>
+  <!-- Top right crescent -->
+  <path d="M36 0C42.6274 0 48 5.37258 48 12C48 18.6274 42.6274 24 36 24C29.3726 24 24 18.6274 24 12C24 5.37258 29.3726 0 36 0Z" fill="#F6B398"/>
+  <path d="M36 0C42.6274 0 48 5.37258 48 12C48 18.6274 42.6274 24 36 24" fill="#FEF8F1"/>
+  <!-- Bottom circles -->
+  <circle cx="12" cy="36" r="12" fill="#F6B398"/>
+  <circle cx="36" cy="36" r="12" fill="#F6B398"/>
+</svg> 
