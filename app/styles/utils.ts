@@ -16,10 +16,18 @@ export function getThemeValue<
   return theme[category][property] as any;
 }
 
-// Utility functions for common theme access patterns
-export const getColor = (colorPath: string) => {
+type ColorShade = 'DEFAULT' | 'light' | 'muted' | 'navy';
+type ColorCategory = keyof typeof theme.colors;
+
+export const getColor = (colorPath: string): string => {
   const [category, shade = 'DEFAULT'] = colorPath.split('.');
-  return theme.colors[category as keyof typeof theme.colors]?.[shade as 'DEFAULT' | 'light' | 'dark'] || colorPath;
+  const color = theme.colors[category as ColorCategory];
+  
+  if (typeof color === 'string') {
+    return color;
+  }
+  
+  return (color as Record<ColorShade, string>)?.[shade as ColorShade] || colorPath;
 };
 
 export const getFontSize = (size: keyof Theme['typography']['sizes']) => 

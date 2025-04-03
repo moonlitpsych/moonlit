@@ -12,27 +12,32 @@
     "prisma:studio": "prisma studio",
     "prisma:seed": "ts-node prisma/seed.ts",
     "prisma:import-csv": "ts-node prisma/import-csv.ts",
-    "prisma:add-education": "ts-node scripts/add-education.ts"
+    "prisma:add-education": "ts-node scripts/add-education.ts",
+    "manage:providers": "ts-node scripts/manage-providers.ts",
+    "optimize:images": "node scripts/optimize-images.js",
+    "db": "ts-node scripts/db-tools.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@prisma/client": "^5.10.0",
-    "csv-parse": "^5.5.3",
-    "next": "14.1.0",
+    "@prisma/client": "^5.10.2",
+    "next": "^14.1.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",
-    "@types/node": "^20.11.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.61",
+    "@types/react-dom": "^18.2.19",
     "autoprefixer": "^10.4.17",
+    "csv-parse": "^5.6.0",
+    "csv-stringify": "^6.5.2",
     "postcss": "^8.4.35",
-    "prisma": "^5.10.0",
+    "prisma": "^5.10.2",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"

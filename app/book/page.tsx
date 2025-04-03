@@ -8,20 +8,20 @@ export default function BookPage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="px-4 sm:px-6 py-12 max-w-7xl mx-auto">
-        <div className="mb-16">
-          <div className="text-sm tracking-widest text-text font-light mb-8">
+      <section className="px-4 sm:px-6 py-8 sm:py-12 max-w-7xl mx-auto">
+        <div className="mb-8 sm:mb-16">
+          <div className="text-sm tracking-widest text-text font-light mb-4 sm:mb-8">
             BOOK AN APPOINTMENT
           </div>
-          <h1 className="text-3xl font-serif text-text max-w-3xl">
+          <h1 className="text-2xl sm:text-3xl font-serif text-text max-w-3xl">
             Get the mental health medical attention you need{' '}
             <span className="text-[#f6b398]">without the typical wait.</span>
           </h1>
         </div>
 
         {/* PracticeQ Widget Container */}
-        <div className="bg-white p-8 rounded-lg shadow-sm max-w-2xl mx-auto">
-          <div id="intakeq" style={{ maxWidth: '720px', width: '100%', margin: '0 auto' }}></div>
+        <div className="bg-white p-4 sm:p-8 rounded-lg shadow-sm max-w-2xl mx-auto">
+          <div id="intakeq" className="w-full max-w-[720px] mx-auto"></div>
         </div>
       </section>
 
