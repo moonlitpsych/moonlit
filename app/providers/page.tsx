@@ -86,37 +86,39 @@ export default function ProvidersPage() {
   return (
     <div className="min-h-screen bg-surface">
       <Header />
-      <div className="py-12 px-4 sm:px-6 lg:px-8">
+      <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
-            <div className="text-sm tracking-widest text-text font-light mb-8">
+          <div className="mb-8 sm:mb-16">
+            <div className="text-sm tracking-widest text-text font-light mb-4 sm:mb-8">
               OUR PROVIDERS
             </div>
-            <h1 className="text-3xl font-serif text-text max-w-3xl">
+            <h1 className="text-2xl sm:text-3xl font-serif text-text max-w-3xl">
               We only work with psychiatrists with the best training — both in medicine and in bedside manner.
             </h1>
             <Link 
               href="/book"
-              className="inline-block mt-8 px-6 py-3 bg-[#BF9C73] text-white rounded hover:bg-[#A88B68] transition-colors"
+              className="inline-block mt-6 sm:mt-8 px-4 sm:px-6 py-2 sm:py-3 bg-[#BF9C73] text-white rounded hover:bg-[#A88B68] transition-colors text-sm sm:text-base"
             >
               Book by availability
             </Link>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Filter sidebar */}
-            <div className="lg:w-64 space-y-6">
-              <SearchBar
-                value={searchQuery}
-                onChange={setSearchQuery}
-                placeholder="Search . . ."
-                title="Search providers by name or keyword in bio"
-              />
-              <FilterPanel 
-                filters={filters} 
-                onChange={setFilters}
-                availableInsurancePlans={activePayers}
-              />
+          <div className="flex flex-col lg:flex-row gap-6 sm:gap-8">
+            {/* Filter sidebar - Collapsible on mobile */}
+            <div className="lg:w-64">
+              <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm space-y-4 sm:space-y-6">
+                <SearchBar
+                  value={searchQuery}
+                  onChange={setSearchQuery}
+                  placeholder="Search . . ."
+                  title="Search providers by name or keyword in bio"
+                />
+                <FilterPanel 
+                  filters={filters} 
+                  onChange={setFilters}
+                  availableInsurancePlans={activePayers}
+                />
+              </div>
             </div>
 
             {/* Main content area */}
@@ -126,12 +128,12 @@ export default function ProvidersPage() {
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
                 </div>
               ) : providers.length === 0 ? (
-                <div className="text-center py-12">
-                  <p className="text-gray-500 text-lg">No providers found matching your criteria.</p>
+                <div className="text-center py-8 sm:py-12">
+                  <p className="text-gray-500 text-base sm:text-lg">No providers found matching your criteria.</p>
                   <p className="text-gray-500 mt-2">Try adjusting your filters.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                   {providers.map((provider) => (
                     <ProviderCard key={provider.id} provider={provider} />
                   ))}
