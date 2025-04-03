@@ -1,0 +1,4 @@
+providers
+firstName,lastName,title,personalEmail,phone,fax,bio,languages,photoUrl,availability,npi,personalBookingLink,address,dateOfBirth,locationOfBirth,stateLicenseNumbers,deaNumber,ssn,medicalSchool,residency,residencyStartYear,residencyGradYear
+Travis,Norseth,MD,travis@moonlit.health,,,,English;Spanish,/images/Travis-Norseth-headshot.jpg,true,1234567890,,,,,,,,,,2018,2022
+C. Rufus,Sweeney,MD,rufus@moonlit.health,,,,English;Spanish,/images/Rufus-Sweeney-headshot.jpg,false,0987654321,,,,,,,,,,2015,2019

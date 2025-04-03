@@ -15,119 +15,65 @@ model Provider {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  // Basic Information
+  // Basic Information (matching CSV structure)
   firstName     String
   lastName      String
-  email         String   @unique
+  title         String   // MD, DO, NP, AP
+  personalEmail String   @unique
   phone         String?
-  title         String?  // e.g., "MD", "DO", "NP", "PA"
-  specialty     String?
+  fax          String?
+  bio          String?  @db.Text
+  languages    String[] // Array of spoken languages
+  photoUrl     String?
+  availability Boolean  @default(false)
   
   // Professional Details
-  licenseNumber String?  @unique
-  state         String?  // State of licensure
-  npi           String?  @unique // National Provider Identifier
+  npi          String   @unique
+  personalBookingLink String?
+  address      String?
   
-  // Practice Information
-  practiceName  String?
-  practiceAddress String?
-  practicePhone  String?
-  practiceEmail  String?
+  // Personal Information (sensitive fields)
+  dateOfBirth  DateTime?
+  locationOfBirth String?
+  stateLicenseNumbers String? // CSV of license numbers
+  deaNumber    String?  // Sensitive - handle encryption in application layer
+  ssn          String?  // Sensitive - handle encryption in application layer
   
-  // Availability
-  availability  Boolean  @default(false) // Whether the provider is accepting patients
+  // Education
+  medicalSchool String?
+  residency     String?
+  residencyStartYear Int?
+  residencyGradYear  Int?
   
-  // Credentials & Certifications
-  education     Education[]
-  certifications Certification[]
-  
-  // Insurance & Payment
-  acceptedPayers ProviderPayer[]
-  selfPayRate    Float?  // Rate for self-pay patients
-  
-  // Additional Information
-  bio           String?  @db.Text
-  languages     String[] // Array of spoken languages
-  specialties   String[] // Array of specialties
-  photoUrl      String?
-  
-  // Status
-  isActive      Boolean  @default(true)
-  isVerified    Boolean  @default(false)
-
-  // Booking
-  personalBookingUrl String? // Direct booking URL from PracticeQ
-}
-
-enum PayerType {
-  INSURANCE
-  CASH
-  MEDICAID
-  MEDICARE
+  // Relationships
+  payerRelationships ProviderPayer[]
 }
 
 model Payer {
-  id                String   @id @default(cuid())
-  name              String   @unique // Internal name (slug)
-  displayName       String   // Human-readable name
-  type              PayerType
-  networkName       String?
-  
-  // Contact & Claims Information
-  contactInfo       Json?    // Structured contact information
-  claimsAddress     String?
-  electronicPayerId String?  // Electronic Payer ID for claims
-  
-  // Terms & Requirements
-  effectiveDate     DateTime?
-  contractTerms     String?  @db.Text
-  paymentMethods    String[] // Array of accepted payment methods
-  claimsRequirements String? @db.Text
-  
-  // Coverage
-  acceptedStates    String[] // Array of state codes where the payer is accepted
-  
-  // Status
-  isActive         Boolean  @default(true) // Active on Moonlit
-  providers        ProviderPayer[]
-  
-  // Metadata
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  name          String
+  isActive      Boolean  @default(true)
+  isMedicaid    Boolean  @default(false)
+  states        String[] // Array of states
+  dateActive    DateTime
+  reimbursementRate Float
+
+  // Relationships
+  providerRelationships ProviderPayer[]
 }
 
 model ProviderPayer {
-  provider    Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  provider    Provider @relation(fields: [providerId], references: [id])
   providerId  String
-  payer       Payer    @relation(fields: [payerId], references: [id], onDelete: Cascade)
+  payer       Payer    @relation(fields: [payerId], references: [id])
   payerId     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 
-  @@id([providerId, payerId])
-}
-
-model Education {
-  id          String   @id @default(cuid())
-  providerId  String
-  provider    Provider @relation(fields: [providerId], references: [id])
-  institution String
-  degree      String
-  field       String
-  startDate   DateTime
-  endDate     DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Certification {
-  id          String   @id @default(cuid())
-  providerId  String
-  provider    Provider @relation(fields: [providerId], references: [id])
-  name        String
-  issuer      String
-  issueDate   DateTime
-  expiryDate  DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  @@unique([providerId, payerId])
 } 

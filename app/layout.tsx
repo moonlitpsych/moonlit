@@ -1,7 +1,6 @@
 import { Newsreader } from 'next/font/google'
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import Footer from './components/Footer'
 
 const newsreader = Newsreader({ 
@@ -12,8 +11,6 @@ const newsreader = Newsreader({
   variable: '--font-newsreader',
   adjustFontFallback: false,
 })
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Moonlit Psychiatry',
@@ -27,10 +24,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${newsreader.variable} font-serif`}>
-      <body className="bg-surface">
-        <main>
-          {children}
-        </main>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className="bg-[#FEF8F1]">
+        {children}
         <Footer />
       </body>
     </html>
